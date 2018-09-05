@@ -12,12 +12,17 @@ import com.emenegal.battery_saving.method.ExponentialMethod;
 import com.emenegal.battery_saving.method.LinearMethod;
 import com.emenegal.battery_saving.enumeration.DefaultEnum;
 
+import org.atteo.classindex.ClassIndex;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.List;
 
+import static org.atteo.classindex.ClassIndex.ANNOTATED_INDEX_PREFIX;
 import static org.junit.Assert.*;
 
 @ResourceStrategy
@@ -58,21 +63,13 @@ public class AbstractResourceStrategyTest {
 
             }
         };
-        List<Field> bAnnotations = Util.getAnnotatedFields(this.getClass(),BPrecision.class);
-        List<Field> iAnnotations = Util.getAnnotatedFields(this.getClass(),IPrecision.class);
-        List<Field> eAnnotations = Util.getAnnotatedFields(this.getClass(),EPrecision.class);
+    }
 
-        try {
-            Util.initFieldValues(bAnnotations,BPrecision.class);
-            Util.initFieldValues(iAnnotations,IPrecision.class);
-            Util.initFieldValues(eAnnotations,EPrecision.class);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        strategy.setbFields(bAnnotations);
-        strategy.setiFields(iAnnotations);
-        strategy.seteFields(eAnnotations);
+    @Test
+    public void initialization(){
+        assertEquals(strategy.getbFields().size(),3);
+        assertEquals(strategy.geteFields().size(),2);
+        assertEquals(strategy.getiFields().size(),3);
     }
 
     @Test

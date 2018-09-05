@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@ResourceStrategy
 public class Util {
 
     /**
@@ -48,8 +48,6 @@ public class Util {
      */
     public static List<Field> getAnnotatedFields(Class<? extends Annotation> annotation){
         List<Field> fields = new ArrayList<>();
-
-        Iterable<Class<?>> kk = ClassIndex.getPackageClasses("com.emenegal.battery_saving");
 
         for (Class<?> klass : ClassIndex.getAnnotated(ResourceStrategy.class))
             fields.addAll(getAnnotatedFields(klass,annotation));
