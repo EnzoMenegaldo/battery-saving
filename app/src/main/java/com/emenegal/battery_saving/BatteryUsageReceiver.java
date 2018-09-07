@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
+import com.emenegal.battery_saving.component.AnnotationList;
 import com.emenegal.battery_saving.strategy.PluggedResourceStrategy;
 import com.emenegal.battery_saving.strategy.UnPluggedResourceStrategy;
 
@@ -36,14 +37,15 @@ public class BatteryUsageReceiver extends BroadcastReceiver{
                 if(battery_level != oldBatteryLevel){
                     oldBatteryLevel = battery_level;
                     StrategyManager.INSTANCE.getStrategy().updateStrategy(battery_level);
+                    StrategyManager.INSTANCE.updateDisplayedValue();
                 }
 
                 break;
             case BatteryManager.ACTION_CHARGING:
-                //StrategyManager.INSTANCE.setStrategy(new PluggedResourceStrategy(classLoader));
+                StrategyManager.INSTANCE.setStrategy(new PluggedResourceStrategy());
                 break;
             case BatteryManager.ACTION_DISCHARGING:
-                //StrategyManager.INSTANCE.setStrategy(new UnPluggedResourceStrategy(classLoader));
+                StrategyManager.INSTANCE.setStrategy(new UnPluggedResourceStrategy());
                 break;
             default:
                 break;
