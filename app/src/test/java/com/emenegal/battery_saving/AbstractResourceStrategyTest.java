@@ -2,27 +2,16 @@ package com.emenegal.battery_saving;
 
 import com.emenegal.battery_saving.annotation.ResourceStrategy;
 import com.emenegal.battery_saving.enumeration.IEnum;
-import com.emenegal.battery_saving.enumeration.PrecisionEnum;
 import com.emenegal.battery_saving.annotation.BPrecision;
 import com.emenegal.battery_saving.annotation.EPrecision;
-import com.emenegal.battery_saving.method.LogarithmMethod;
 import com.emenegal.battery_saving.strategy.AbstractResourceStrategy;
 import com.emenegal.battery_saving.annotation.IPrecision;
-import com.emenegal.battery_saving.method.ExponentialMethod;
-import com.emenegal.battery_saving.method.LinearMethod;
+import com.emenegal.battery_saving.method.DefaultMethod;
 import com.emenegal.battery_saving.enumeration.DefaultEnum;
 
-import org.atteo.classindex.ClassIndex;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Enumeration;
-import java.util.List;
-
-import static org.atteo.classindex.ClassIndex.ANNOTATED_INDEX_PREFIX;
 import static org.junit.Assert.*;
 
 @ResourceStrategy
@@ -37,17 +26,11 @@ public class AbstractResourceStrategyTest {
     @BPrecision(value = false, threshold = 25)
     public static boolean bool3;
 
-    @IPrecision(lower = 150 ,higher = 400, method = ExponentialMethod.class, params = {2})
+    @IPrecision(lower = 350 ,higher = 4000,method = DefaultMethod.class)
     public static double int1;
 
-    @IPrecision(lower = 350 ,higher = 4000,method = LinearMethod.class)
+    @IPrecision(lower = 0 ,higher = 1,method = DefaultMethod.class)
     public static double int2;
-
-    @IPrecision(lower = 10 ,higher = 70 ,method = LogarithmMethod.class)
-    public static double int3;
-
-    @EPrecision(klass = PrecisionEnum.class)
-    public static IEnum precisionEnum;
 
     @EPrecision(klass = DefaultEnum.class)
     public static IEnum defaultEnum;
@@ -68,8 +51,8 @@ public class AbstractResourceStrategyTest {
     @Test
     public void initialization(){
         assertEquals(strategy.getbFields().size(),3);
-        assertEquals(strategy.geteFields().size(),2);
-        assertEquals(strategy.getiFields().size(),3);
+        assertEquals(strategy.geteFields().size(),1);
+        assertEquals(strategy.getiFields().size(),2);
     }
 
     @Test
@@ -98,40 +81,10 @@ public class AbstractResourceStrategyTest {
 
 
     @Test
-    public void updateIPrecisionLinearMethod() {
+    public void updateIPrecisionDefaultMethod() {
         strategy.updateIPrecisionFieldValues(50);
-        assertEquals(int2,2175,0);
-    }
-
-    @Test
-    public void updateIPrecisionExponentialMethod() {
-        strategy.updateIPrecisionFieldValues(50);
-        assertEquals(int1,2500,0);
-    }
-
-    @Test
-    public void updateIPrecisionLogarithmMethod() {
-        strategy.updateIPrecisionFieldValues(1);
-        assertEquals(int3,10,0);
-        strategy.updateIPrecisionFieldValues(0);
-        assertEquals(int3,0,0);
-        strategy.updateIPrecisionFieldValues(50);
-        assertEquals(int3,13.91,0.01);
-    }
-
-    @Test
-    public void updatePrecisionEnum() {
-        assertEquals(precisionEnum,PrecisionEnum.SaveEnergy);
-        strategy.updateEPrecisionFieldValues(90);
-        assertEquals(precisionEnum,PrecisionEnum.FullPower);
-        strategy.updateEPrecisionFieldValues(80);
-        assertEquals(precisionEnum,PrecisionEnum.HighPower);
-        strategy.updateEPrecisionFieldValues(65);
-        assertEquals(precisionEnum,PrecisionEnum.HalfPower);
-        strategy.updateEPrecisionFieldValues(25);
-        assertEquals(precisionEnum,PrecisionEnum.FewPower);
-        strategy.updateEPrecisionFieldValues(1);
-        assertEquals(precisionEnum,PrecisionEnum.SaveEnergy);
+        assertEquals(int1,2175,0);
+        assertEquals(int2,0.5,0);
     }
 
     @Test

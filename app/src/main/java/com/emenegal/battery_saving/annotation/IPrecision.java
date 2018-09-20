@@ -1,7 +1,7 @@
 package com.emenegal.battery_saving.annotation;
 
 import com.emenegal.battery_saving.method.IMethod;
-import com.emenegal.battery_saving.method.LinearMethod;
+import com.emenegal.battery_saving.method.DefaultMethod;
 
 import org.atteo.classindex.IndexAnnotated;
 
@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface IPrecision {
-    Class<? extends IMethod> method() default LinearMethod.class;
+    Class<? extends IMethod> method() default DefaultMethod.class;
     double lower() default 1;
     double higher() default 1;
     double[] params() default 0;

@@ -8,7 +8,7 @@ public class PluggedResourceStrategy extends AbstractResourceStrategy {
 
     @Override
     public void updateStrategy(int battery_level) {
-
+        //Do nothing
     }
 
 }

@@ -3,6 +3,7 @@ package com.emenegal.battery_saving;
 
 import android.content.Context;
 
+import com.emenegal.battery_saving.annotation.ResourceStrategy;
 import com.emenegal.battery_saving.component.AnnotationList;
 import com.emenegal.battery_saving.strategy.ICollectionStrategy;
 import com.emenegal.battery_saving.strategy.PluggedResourceStrategy;
@@ -15,7 +16,7 @@ public class StrategyManager {
 
     private ICollectionStrategy strategy;
 
-    //Custom list view to display all the annotated fields
+    //Custom listview to display all the annotated fields
     private AnnotationList annotationList;
 
     public void setStrategy(ICollectionStrategy strategy) {

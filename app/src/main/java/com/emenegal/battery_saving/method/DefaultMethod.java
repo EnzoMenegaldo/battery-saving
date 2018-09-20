@@ -2,7 +2,7 @@ package com.emenegal.battery_saving.method;
 
 import com.emenegal.battery_saving.annotation.IPrecision;
 
-public class LinearMethod implements IMethod {
+public class DefaultMethod implements IMethod {
 
     @Override
     public double execute(int batteryLevel,IPrecision annotation) {

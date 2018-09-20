@@ -39,6 +39,7 @@ dependencies {
     implementation 'org.atteo.classindex:classindex:3.3'
     annotationProcessor 'org.atteo.classindex:classindex:3.3'
     testAnnotationProcessor 'org.atteo.classindex:classindex:3.3'
+    androidTestAnnotationProcessor 'org.atteo.classindex:classindex:3.3'
 }
 
 
