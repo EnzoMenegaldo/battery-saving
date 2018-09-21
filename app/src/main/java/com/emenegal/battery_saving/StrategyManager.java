@@ -35,9 +35,9 @@ public class StrategyManager {
      */
     public void initialize(Context context, AnnotationList annotationList){
        if(Util.isCharging(context))
-            strategy = new PluggedResourceStrategy();
+            strategy = new PluggedResourceStrategy(context);
         else
-            strategy = new UnPluggedResourceStrategy();
+            strategy = new UnPluggedResourceStrategy(context);
 
         this.annotationList = annotationList;
         context.registerReceiver(BatteryUsageReceiver.INSTANCE,BatteryUsageReceiver.INSTANCE.getIntentFilter());
@@ -50,9 +50,9 @@ public class StrategyManager {
      */
     public void initialize(Context context){
         if(Util.isCharging(context))
-            strategy = new PluggedResourceStrategy();
+            strategy = new PluggedResourceStrategy(context);
         else
-            strategy = new UnPluggedResourceStrategy();
+            strategy = new UnPluggedResourceStrategy(context);
 
         context.registerReceiver(BatteryUsageReceiver.INSTANCE,BatteryUsageReceiver.INSTANCE.getIntentFilter());
     }

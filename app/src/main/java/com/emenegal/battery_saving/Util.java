@@ -54,37 +54,6 @@ public class Util {
         return fields;
     }
 
-    /**
-     * Update the boolean value of the field according to the value of the associated annotation.
-     */
-    public static void initFieldValues(List<Field> fields, Class<? extends Annotation> klass) throws ClassNotFoundException {
-        if(klass.equals(BPrecision.class)) {
-            for (Field field : fields) {
-                try {
-                    field.setBoolean(field.getClass(), field.getAnnotation(BPrecision.class).value());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else if(klass.equals(IPrecision.class)){
-            for(Field field : fields) {
-                try {
-                    field.setDouble(field.getClass(), field.getAnnotation(IPrecision.class).lower());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else if(klass.equals(EPrecision.class)){
-            for(Field field : fields) {
-                try {
-                    field.set(field.getClass(), IEnum.getLowerValue(field.getAnnotation(EPrecision.class).klass()));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else
-            throw new ClassNotFoundException();
-    }
 
 
     /**
@@ -93,11 +62,20 @@ public class Util {
      * @return
      */
     public static boolean isCharging(Context context){
+        BatteryManager bm = (BatteryManager)context.getSystemService(Context.BATTERY_SERVICE);
+        boolean b = bm.isCharging();
+        return bm.isCharging();
+    }
+
+    /**
+     * Return current battery level
+     */
+    public static int getCurrentBatteryLevel(Context context){
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
 
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        return status == BatteryManager.BATTERY_STATUS_CHARGING ;
+        return batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
     }
 
 }

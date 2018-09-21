@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface IPrecision {
     Class<? extends IMethod> method() default DefaultMethod.class;
-    double lower() default 1;
-    double higher() default 1;
+    double min() default 1;
+    double max() default 1;
     double[] params() default 0;
 }

@@ -20,19 +20,31 @@ public class BatteryUsageReceiver extends BroadcastReceiver{
     private IntentFilter intentFilter ;
     private int oldBatteryLevel;
 
+    private int oldStatus;
+    private int currentStatus;
+
 
     private BatteryUsageReceiver(){
         intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        intentFilter.addAction(BatteryManager.ACTION_CHARGING);
-        intentFilter.addAction(BatteryManager.ACTION_DISCHARGING);
         oldBatteryLevel = -1;
+        oldStatus = -1;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()) {
             case Intent.ACTION_BATTERY_CHANGED:
+
+                currentStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+                if (oldStatus != currentStatus) {
+                    if(currentStatus == BatteryManager.BATTERY_STATUS_CHARGING)
+                        StrategyManager.INSTANCE.setStrategy(new PluggedResourceStrategy(context));
+                    else
+                        StrategyManager.INSTANCE.setStrategy(new UnPluggedResourceStrategy(context));
+                }
+
+
                 battery_level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
                 if(battery_level != oldBatteryLevel){
                     oldBatteryLevel = battery_level;
@@ -40,14 +52,6 @@ public class BatteryUsageReceiver extends BroadcastReceiver{
                     StrategyManager.INSTANCE.updateDisplayedValue();
                 }
 
-                break;
-            case BatteryManager.ACTION_CHARGING:
-                StrategyManager.INSTANCE.setStrategy(new PluggedResourceStrategy());
-                break;
-            case BatteryManager.ACTION_DISCHARGING:
-                StrategyManager.INSTANCE.setStrategy(new UnPluggedResourceStrategy());
-                break;
-            default:
                 break;
         }
     }

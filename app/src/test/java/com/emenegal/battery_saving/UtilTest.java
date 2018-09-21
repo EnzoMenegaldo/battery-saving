@@ -2,7 +2,6 @@ package com.emenegal.battery_saving;
 
 import com.emenegal.battery_saving.annotation.BPrecision;
 import com.emenegal.battery_saving.annotation.IPrecision;
-import com.emenegal.battery_saving.annotation.ResourceStrategy;
 
 import org.junit.Test;
 
@@ -22,7 +21,7 @@ public class UtilTest {
     @BPrecision(true)
     public boolean nonStaticBoolean;
 
-    @IPrecision(lower = 10,higher = 100)
+    @IPrecision(min = 10,max = 100)
     public static double aInterval;
 
 
@@ -32,29 +31,5 @@ public class UtilTest {
         assertEquals(bAnnotations.size(),2);
         List<Field> iAnnotations = Util.getAnnotatedFields(this.getClass(),IPrecision.class);
         assertEquals(iAnnotations.size(),1);
-    }
-
-
-    @Test
-    public void initBPrecisionFieldValues() {
-        List<Field> bAnnotations = Util.getAnnotatedFields(this.getClass(),BPrecision.class);
-        assertFalse(aBoolean);
-        try {
-            Util.initFieldValues(bAnnotations,BPrecision.class);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        assertTrue(aBoolean);
-    }
-
-    @Test
-    public void initIPrecisionFieldValues() {
-        List<Field> iAnnotations = Util.getAnnotatedFields(this.getClass(),IPrecision.class);
-        try {
-            Util.initFieldValues(iAnnotations,IPrecision.class);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        assertEquals(aInterval,10,0);
     }
 }

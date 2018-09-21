@@ -1,9 +1,12 @@
 package com.emenegal.battery_saving.strategy;
 
+import android.content.Context;
+
 public class PluggedResourceStrategy extends AbstractResourceStrategy {
 
-    public PluggedResourceStrategy() {
-      super();
+    public PluggedResourceStrategy(Context context) {
+      super(context);
+      initFieldValues(100);
     }
 
     @Override

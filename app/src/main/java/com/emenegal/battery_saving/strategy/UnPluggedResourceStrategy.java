@@ -1,12 +1,15 @@
 package com.emenegal.battery_saving.strategy;
 
+import android.content.Context;
+
 /**
  * Strategy used when the devise is not charging
  */
 public class UnPluggedResourceStrategy extends AbstractResourceStrategy {
 
-    public UnPluggedResourceStrategy() {
-        super();
+    public UnPluggedResourceStrategy(Context context) {
+        super(context);
+        initFieldValues(context);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.emenegal.battery_saving.strategy;
 
 
+import android.content.Context;
+
 import com.emenegal.battery_saving.Util;
 import com.emenegal.battery_saving.annotation.BPrecision;
 import com.emenegal.battery_saving.annotation.EPrecision;
@@ -8,6 +10,7 @@ import com.emenegal.battery_saving.annotation.IPrecision;
 import com.emenegal.battery_saving.annotation.ResourceStrategy;
 import com.emenegal.battery_saving.enumeration.IEnum;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.List;
@@ -23,20 +26,16 @@ public abstract class AbstractResourceStrategy implements ICollectionStrategy {
 
     protected List<Field> eFields;
 
+    protected Context context;
 
 
-    public AbstractResourceStrategy() {
+
+    public AbstractResourceStrategy(Context context) {
         bFields = Util.getAnnotatedFields(BPrecision.class);
         iFields = Util.getAnnotatedFields(IPrecision.class);
         eFields = Util.getAnnotatedFields(EPrecision.class);
+        this.context = context;
 
-        try {
-            Util.initFieldValues(bFields,BPrecision.class);
-            Util.initFieldValues(iFields,IPrecision.class);
-            Util.initFieldValues(eFields,EPrecision.class);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     public abstract void updateStrategy(int batteryLevel);
@@ -130,6 +129,28 @@ public abstract class AbstractResourceStrategy implements ICollectionStrategy {
             }
         }
     }
+
+
+    /**
+     * Update the boolean value of the field according to the current battery level.
+     */
+    public void initFieldValues(Context context){
+        int batteryLevel = Util.getCurrentBatteryLevel(context);
+        updateEPrecisionFieldValues(batteryLevel);
+        updateIPrecisionFieldValues(batteryLevel);
+        updateBPrecisionFieldValues(batteryLevel);
+    }
+
+    /**
+     * Update the boolean value of the field according to the param battery level.
+     */
+    public void initFieldValues(int batteryLevel){
+        updateEPrecisionFieldValues(batteryLevel);
+        updateIPrecisionFieldValues(batteryLevel);
+        updateBPrecisionFieldValues(batteryLevel);
+    }
+
+
 
 
 }

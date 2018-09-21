@@ -6,7 +6,7 @@ public class DefaultMethod implements IMethod {
 
     @Override
     public double execute(int batteryLevel,IPrecision annotation) {
-        return (annotation.higher()-annotation.lower())*batteryLevel/100+annotation.lower();
+        return (annotation.max()-annotation.min())*batteryLevel/100+annotation.min();
     }
 
 }
