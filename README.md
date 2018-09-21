@@ -34,7 +34,7 @@ battery-saving uses the external library [ClassIndex](https://github.com/atteo/c
        @BPrecision(Value = True, Threshold = 80)
        public static boolean aValue;
        
-       @IPrecision(lower = 0, higher = 50, method = DefaultMethod.class, params = {}
+       @IPrecision(min = 0, max = 50, method = DefaultMethod.class, params = {}
        public static double aValue;
        
        @EPrecision(klass = DefaultEnum.class)
@@ -100,15 +100,15 @@ Here is an example:
 This annotation must only be used for double variables. 
 
 Four parameters :
-  - Lower : the lowest value that can take the variable.
-  - Higher : the highest value that can take the variable.
+  - Min : the lowest value that can take the variable.
+  - Max : the highest value that can take the variable.
   - Method : a class which implement the ‘IMethod’ interface defining the way the variable will change according to the battery level.
   - Params : a double array which contains potential parameters used by the method.
 
 Here is an example:
 
 ```java
-      @IPrecision(lower = 0, higher = 50, method = DefaultMethod.class, params = {}
+      @IPrecision(min = 0, max = 50, method = DefaultMethod.class, params = {}
        public static double aValue;
        
        
@@ -118,7 +118,7 @@ Here is an example:
        
        public class DefaultMethod implements IMethod {
           public double execute(int batteryLevel, IPrecision annotation) {
-             return (annotation.higher() - annotation.lower()) * (double)batteryLevel / 100.0D + annotation.lower();
+             return (annotation.max() - annotation.min()) * (double)batteryLevel / 100.0D + annotation.min();
           }
        }
        
