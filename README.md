@@ -3,7 +3,7 @@
 # About
 battery-saving is an android library defining a new language helping developers to build mobile applications that can regulate themselves according to the battery level.
 
-# How to use it?
+# How to use it
 
 1. Create local Maven repo
 
@@ -59,7 +59,7 @@ battery-saving uses the external library [ClassIndex](https://github.com/atteo/c
         StrategyManager.INSTANCE.stop(Context);
     ``` 
         
-# How it works?
+# How it works
 
 ## Indexation
 
